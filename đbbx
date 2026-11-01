@@ -1,0 +1,49 @@
+-- Steal an Egg VIP v9.2 | @UnknownGuy9876 | @SGCodexs
+if not syn and not getgenv then warn("No UNC!") end
+local P=game:GetService("Players")local U=game:GetService("UserInputService")local R=game:GetService("RunService")local L=game:GetService("Lighting")local C=game:GetService("CoreGui")local W=game:GetService("Workspace")local V=game:GetService("VirtualUser")local LP=P.LocalPlayer
+for _,n in ipairs({"Rayfield","RayfieldKeySystem"}) do local o=C:FindFirstChild(n)or(gethui and gethui():FindFirstChild(n))if o then pcall(function()o:Destroy()end)end end
+local AK={on=true,max=60,cnt=0,t=tick()}
+pcall(function()local mt=getrawmetatable and getrawmetatable(game)if mt and setreadonly then setreadonly(mt,false)local oi=mt.__index mt.__index=newcclosure(function(t,k)if t==game and(k=="Kick"or k=="kick")and AK.on then return function()end end return oi(t,k)end)setreadonly(mt,true)end end)
+if hookmetamethod then local on on=hookmetamethod(game,"__namecall",function(s,...)local m=getnamecallmethod()if AK.on and(m=="Kick"or m=="kick")then return nil end return on(s,...)end)end
+pcall(function()LP.Kick=function()end end)
+local RF for _,u in ipairs({"https://sirius.menu/rayfield","https://raw.githubusercontent.com/SiriusSoftwareLtd/Rayfield/main/source.lua"})do local ok,r=pcall(function()return loadstring(game:HttpGet(u))()end)if ok and r then RF=r break end end
+if not RF then error("Rayfield fail")end
+local Win=RF:CreateWindow({Name="Steal an Egg VIP v9.2",LoadingTitle="Loading...",LoadingSubtitle="Devils Will Rise",ConfigurationSaving={Enabled=false},Discord={Enabled=false,Invite="noinvite"},KeySystem=true,KeySettings={Title="Key",Subtitle="Nhap: Khang tuat va GP",Note="Key: Khang tuat va GP",FileName="StealEggKeyVIP",SaveKey=true,GrabKeyFromSite=false,Key={"Khang tuat va GP","Khang tuất và GP"}}})
+if RF.SetKeySystemValid then pcall(function()RF:SetKeySystemValid()end)end
+if RF.KeySystem then pcall(function()RF.KeySystem:Destroy()end)end
+local S={AutoSteal=false,StealRange=50,StealInt=0.5,AutoFarm=false,KillAura=false,KARange=30,InfJump=false,GodMode=false,Noclip=false,Speed=16,JumpPower=50,AntiAFK=true,ESPPlayer=false,FullBright=false,FPSBoost=false,AntiKick=true}
+local T1=Win:CreateTab("Steal",4483362458)local T2=Win:CreateTab("Combat",4483362458)local T3=Win:CreateTab("Misc",4483362458)local T4=Win:CreateTab("Anti",4483362458)
+T1:CreateSection("Trom")
+T1:CreateToggle({Name="Auto Steal",CurrentValue=false,Callback=function(v)S.AutoSteal=v end})
+T1:CreateToggle({Name="Auto Farm",CurrentValue=false,Callback=function(v)S.AutoFarm=v end})
+T1:CreateSlider({Name="Range",Range={10,500},Increment=5,CurrentValue=50,Callback=function(v)S.StealRange=v end})
+T1:CreateSlider({Name="Interval",Range={0.1,3},Increment=0.1,CurrentValue=0.5,Callback=function(v)S.StealInt=v end})
+T2:CreateSection("Combat")
+T2:CreateToggle({Name="Kill Aura",CurrentValue=false,Callback=function(v)S.KillAura=v end})
+T2:CreateToggle({Name="Inf Jump",CurrentValue=false,Callback=function(v)S.InfJump=v end})
+T2:CreateToggle({Name="God Mode",CurrentValue=false,Callback=function(v)S.GodMode=v end})
+T2:CreateToggle({Name="Noclip",CurrentValue=false,Callback=function(v)S.Noclip=v end})
+T2:CreateSlider({Name="Speed",Range={16,200},Increment=1,CurrentValue=16,Callback=function(v)S.Speed=v end})
+T2:CreateSlider({Name="JumpPower",Range={50,500},Increment=5,CurrentValue=50,Callback=function(v)S.JumpPower=v end})
+T3:CreateSection("Misc")
+T3:CreateToggle({Name="Anti AFK",CurrentValue=true,Callback=function(v)S.AntiAFK=v end})
+T3:CreateToggle({Name="ESP Player",CurrentValue=false,Callback=function(v)S.ESPPlayer=v end})
+T3:CreateToggle({Name="Full Bright",CurrentValue=false,Callback=function(v)S.FullBright=v if v then L.Brightness=2 L.ClockTime=14 L.GlobalShadows=false else L.Brightness=1 L.GlobalShadows=true end end})
+T3:CreateToggle({Name="FPS Boost",CurrentValue=false,Callback=function(v)S.FPSBoost=v if v then pcall(function()settings().Rendering.QualityLevel=Enum.QualityLevel.Level01 end)end end})
+T4:CreateSection("Anti")
+T4:CreateToggle({Name="Anti Kick",CurrentValue=true,Callback=function(v)S.AntiKick=v AK.on=v end})
+T4:CreateSlider({Name="Max Remote/s",Range={10,200},Increment=5,CurrentValue=60,Callback=function(v)AK.max=v end})
+LP.Idled:Connect(function()if S.AntiAFK then V:Button2Down(Vector2.new(0,0),W.CurrentCamera.CFrame)task.wait(1)V:Button2Up(Vector2.new(0,0),W.CurrentCamera.CFrame)end end)
+local ls=0
+R.Heartbeat:Connect(function()pcall(function()
+local c=LP.Character if not c or not c:FindFirstChild("Humanoid")then return end
+local h=c.Humanoid local r=c:FindFirstChild("HumanoidRootPart")
+h.WalkSpeed=S.Speed h.UseJumpPower=true h.JumpPower=S.JumpPower
+if S.GodMode and h.Health<h.MaxHealth then h.Health=h.MaxHealth end
+if S.Noclip then for _,p in ipairs(c:GetDescendants())do if p:IsA("BasePart")then p.CanCollide=false end end end
+local n=tick()if(S.AutoSteal or S.AutoFarm)and r and(n-ls)>=S.StealInt then ls=n
+for _,o in ipairs(W:GetDescendants())do if o:IsA("ProximityPrompt")or o:IsA("ClickDetector")then local p=o.Parent if p and p:IsA("BasePart")and(p.Position-r.Position).Magnitude<=S.StealRange then if o:IsA("ProximityPrompt")then pcall(function()fireproximityprompt(o)end)else pcall(function()fireclickdetector(o)end)end task.wait(0.05)end end end end
+end)end)
+U.JumpRequest:Connect(function()pcall(function()if S.InfJump and LP.Character and LP.Character:FindFirstChild("Humanoid")then LP.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)end end)end)
+R.RenderStepped:Connect(function()pcall(function()for _,p in ipairs(P:GetPlayers())do if p~=LP and p.Character then local ch=p.Character local hl=ch:FindFirstChild("VESP")if S.ESPPlayer then if not hl then local x=Instance.new("Highlight")x.Name="VESP"x.Adornee=ch x.FillColor=Color3.fromRGB(255,50,50)x.Parent=ch end elseif hl then hl:Destroy()end end end end)end)
+print("[VIP v9.2] OK")
